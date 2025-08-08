@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08.08.2025</title>
+<style>
+    #table{
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<lable for="nameIn">name:&nbsp; <input id="nameIn" type="text"></lable><br>
+<lable for="emailIn">email:&nbsp; <input id="emailIn" type="email"></lable><br>
+<lable for="phoneIn">phone: <input id="phoneIn" type="text"></lable><br>
+
+<table border="1" id="table">
+    <thead>
+        <th>id</th>
+        <th>name</th>
+        <th>email</th>
+        <th>phone</th>
+        <th>delete</th>
+        <th>edit</th>
+    </thead>
+
+    <tbody id="list">
+
+    </tbody>
+
+</table>
+
+
+
+
+
+
+<script>
+
+
+localStorage.setItem("contacts",JSON.stringify([
+        {id:1,
+            name:"elyashiv",
+            email:"ely@some",
+            phone:"057645897"   
+        }
+    ]));
+
+    
+
+
+function creatTable(arr){
+ let line = "";
+ for(let item of arr){
+        line += "<tr>";
+    for(let index in item){
+        line += `<td>${item[index]}</td>`;
+
+     }
+    
+    
+     line += `<td><button onclick="deleteRow(${item.id})"> D </button></td>`;
+     line += `<td><button onclick="editName(${item.id})"> E </button></td>`;
+
+     line += "</tr>";
+    }
+  document.getElementById("list").innerHTML = line;
+ }
+let contacts = JSON.parse(localStorage.getItem('contacts'));
+creatTable(contacts);
+
+let nextId = contacts.length + 1;
+
+
+    
+
+
+</script>
+</body>
+</html>
