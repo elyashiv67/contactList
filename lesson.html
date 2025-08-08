@@ -14,6 +14,7 @@
 <lable for="nameIn">name:&nbsp; <input id="nameIn" type="text"></lable><br>
 <lable for="emailIn">email:&nbsp; <input id="emailIn" type="email"></lable><br>
 <lable for="phoneIn">phone: <input id="phoneIn" type="text"></lable><br>
+<input id="id" type="hidden">
 <button id="BTN">send</button><br>
 
 <table border="1" id="table">
@@ -69,8 +70,8 @@ function creatTable(arr){
      }
     
     
-     line += `<td><button onclick="deleteRow(${item.id})"> D </button></td>`;
-     line += `<td><button onclick="editName(${item.id})"> E </button></td>`;
+     line += `<td><button onclick="deletContact(${item.id})"> D </button></td>`;
+     line += `<td><button onclick="findContact(${item.id})"> E </button></td>`;
 
      line += "</tr>";
     }
@@ -90,14 +91,61 @@ contacts.push(obj);
 localStorage.setItem('contacts',JSON.stringify(contacts));
 localStorage.setItem('nextID',id+1);
 creatTable(contacts);
-// document.getElementById("nameIn").value = "" ;
-// document.getElementById("emailIn").value = "" ;
-// document.getElementById("phoneIn").value = "" ;
+document.getElementById("nameIn").value = "" ;
+document.getElementById("emailIn").value = "" ;
+document.getElementById("phoneIn").value = "" ;
 
 }
 
-document.getElementById("BTN").addEventListener("click",addContact);
+document.getElementById("BTN").addEventListener("click",BTNfilter);
 
+function deletContact(id){
+    let currentContacts = JSON.parse(localStorage.getItem('contacts'));
+    currentContacts = contacts.filter(obj=>obj.id != id);
+    contacts = currentContacts;
+    localStorage.setItem('contacts',JSON.stringify(contacts));
+    creatTable(contacts);
+}
+
+
+function findContact(id){
+let obj = contacts.find(o=>o.id == id);
+document.getElementById("id").value = obj.id;
+document.getElementById("nameIn").value = obj.name;
+document.getElementById("emailIn").value = obj.email;
+document.getElementById("phoneIn").value = obj.phone;
+}
+
+function updateContact(){
+    let currentContacts = JSON.parse(localStorage.getItem('contacts'));
+    let id = document.getElementById("id").value;
+    let name = document.getElementById("nameIn").value;
+    let email = document.getElementById("emailIn").value;
+    let phone = document.getElementById("phoneIn").value;
+    let contact = currentContacts.find(o=>o.id == id);
+    contact.name = name;
+    contact.email = email;
+    contact.phone = phone;
+    contacts = currentContacts;
+    localStorage.setItem('contacts',JSON.stringify(contacts));
+    creatTable(contacts);
+    document.getElementById("id").value = "";
+    document.getElementById("nameIn").value = "" ;
+    document.getElementById("emailIn").value = "" ;
+    document.getElementById("phoneIn").value = "" ;
+
+}
+
+
+
+
+function BTNfilter(){
+    if(document.getElementById("id").value == ""){
+        addContact();
+    }else{
+        updateContact();  
+    }
+}
 
     
 
