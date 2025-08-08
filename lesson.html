@@ -14,6 +14,7 @@
 <lable for="nameIn">name:&nbsp; <input id="nameIn" type="text"></lable><br>
 <lable for="emailIn">email:&nbsp; <input id="emailIn" type="email"></lable><br>
 <lable for="phoneIn">phone: <input id="phoneIn" type="text"></lable><br>
+<button id="BTN">send</button><br>
 
 <table border="1" id="table">
     <thead>
@@ -37,16 +38,24 @@
 
 
 <script>
-
-
+    
+let contacts = JSON.parse(localStorage.getItem('contacts'));
+    
+if(contacts == null){
 localStorage.setItem("contacts",JSON.stringify([
-        {id:1,
-            name:"elyashiv",
-            email:"ely@some",
-            phone:"057645897"   
-        }
+    {id:1,
+    name:"elyashiv",
+    email:"ely@some",
+    phone:"057645897"   
+    }
     ]));
-
+}
+if(contacts.length == 0){
+    localStorage.setItem("nextID",JSON.stringify(1));
+}else{
+    localStorage.setItem("nextID",JSON.stringify(contacts.length + 1));
+}
+    
     
 
 
@@ -67,10 +76,27 @@ function creatTable(arr){
     }
   document.getElementById("list").innerHTML = line;
  }
-let contacts = JSON.parse(localStorage.getItem('contacts'));
 creatTable(contacts);
 
-let nextId = contacts.length + 1;
+function addContact(){
+
+let id = JSON.parse(localStorage.getItem('nextID'));
+let name = document.getElementById("nameIn").value;
+let email = document.getElementById("emailIn").value;
+let phone = document.getElementById("phoneIn").value;
+
+let obj = {id:id,name:name,email:email,phone:phone};
+contacts.push(obj);
+localStorage.setItem('contacts',JSON.stringify(contacts));
+localStorage.setItem('nextID',id+1);
+creatTable(contacts);
+// document.getElementById("nameIn").value = "" ;
+// document.getElementById("emailIn").value = "" ;
+// document.getElementById("phoneIn").value = "" ;
+
+}
+
+document.getElementById("BTN").addEventListener("click",addContact);
 
 
     
