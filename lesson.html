@@ -126,9 +126,8 @@ function updateContact(){
     contact.name = name;
     contact.email = email;
     contact.phone = phone;
-    contacts = currentContacts;
-    localStorage.setItem('contacts',JSON.stringify(contacts));
-    creatTable(contacts);
+    localStorage.setItem('contacts',JSON.stringify(currentContacts));
+    creatTable(currentContacts);
     document.getElementById("id").value = "";
     document.getElementById("nameIn").value = "" ;
     document.getElementById("emailIn").value = "" ;
