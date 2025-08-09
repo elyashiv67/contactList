@@ -17,6 +17,8 @@
 <input id="id" type="hidden">
 <button id="BTN">send</button><br>
 
+<label for="searchBar">search bar: <input type="text" id="searchBar"></label><br>
+
 <table border="1" id="table">
     <thead>
         <th>id</th>
@@ -146,6 +148,16 @@ function BTNfilter(){
     }
 }
 
+
+function searchBar(){
+let currentContacts = JSON.parse(localStorage.getItem('contacts'));
+let text = document.getElementById("searchBar").value;
+currentContacts = currentContacts.filter(o=>o.name.substring(0,text.length) == text);
+creatTable(currentContacts);
+
+}
+
+document.getElementById("searchBar").addEventListener("input",searchBar);
     
 
 
